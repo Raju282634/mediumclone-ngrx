@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "mediumclone-ngrx"
+    }
+  },
+  "defaultProject": "mediumclone-ngrx",
+  "cli": {
+    "analytics": "822a553d-fb05-4264-9eaa-e92e48bafa5d"
+  }
 }
