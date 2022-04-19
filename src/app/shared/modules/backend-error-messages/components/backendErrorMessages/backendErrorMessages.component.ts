@@ -7,6 +7,7 @@ import { BackEndErrorsInterface } from './../../../../types/backEndErrors.interf
   styleUrls: ['./backendErrorMessages.component.scss']
 })
 export class BackendErrorMessagesComponent implements OnInit {
+  // tslint:disable-next-line: no-input-rename
   @Input('backendErrors') backendErrorsProps: BackEndErrorsInterface;
   errorMessages!: string[];
   constructor() {}
