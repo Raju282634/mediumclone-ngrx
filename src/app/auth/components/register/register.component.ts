@@ -7,9 +7,10 @@ import { map } from 'rxjs/operators';
 import { CurrentUserInterface } from 'src/app/shared/types/currentUser.interface';
 // Actions
 import { registerAction } from '../../store/actions/register.actions';
-import { isSubmittingSelector } from '../../store/selectors';
+import { isSubmittingSelector, validationErrorsSelector } from '../../store/selectors';
 import { AuthService } from './../../services/auth.service';
 import { RegisterRequestInterface } from 'src/app/auth/types/registerRequest.interface';
+import { BackEndErrorsInterface } from 'src/app/shared/types/backEndErrors.interface';
 
 @Component({
   selector: 'app-register',
@@ -20,6 +21,7 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
   isSubmitting$: Observable<boolean>;
+  backendErrors$: Observable<BackEndErrorsInterface>;
 
   constructor(
     private fb: FormBuilder,
@@ -33,7 +35,9 @@ export class RegisterComponent implements OnInit {
 
   initializeValues(): void {
     this.isSubmitting$ = this.store
-    .pipe(select(isSubmittingSelector));
+        .pipe(select(isSubmittingSelector));
+    this.backendErrors$ = this.store
+        .pipe(select(validationErrorsSelector));
   }
 
   initializeForm(): void{
@@ -43,6 +47,7 @@ export class RegisterComponent implements OnInit {
       password: ['', Validators.required]
     });
   }
+
   onSubmit(){
     console.log(this.registerForm.value);
     const request: RegisterRequestInterface = {

@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { registerAction, registerFailureAction, registerSuccessAction } from './../actions/register.actions';
 import { CurrentUserInterface } from '../../../shared/types/currentUser.interface';
 import { of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 
@@ -18,8 +19,9 @@ export class RegisterEffect{
       switchMap(({request}) => {
         return this.authService.register(request).pipe(
           map((currentUser: CurrentUserInterface) => {
+            // window.localStorage.setItem('accessToken', currentUser.token);
             return registerSuccessAction({currentUser}); }),
-          catchError(() => of(registerFailureAction()))
+          catchError((errorResponse: HttpErrorResponse) => of(registerFailureAction({errors: errorResponse.error.errors})))
           ); }
       )));
 }
