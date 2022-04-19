@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+// NgRX
+import { Store } from '@ngrx/store';
+// Actions
+import { registerAction } from '../store/actions';
 
 @Component({
   selector: 'app-register',
@@ -10,19 +14,20 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
-    // this.onSubmit();
+    this.initializeForm();
   }
-
-  onSubmit(){
+  initializeForm(): void{
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
-    console.log(this.registerForm.value);
   }
-
+  onSubmit(){
+    console.log(this.registerForm.value);
+    this.store.dispatch(registerAction(this.registerForm.value));
+  }
 }
